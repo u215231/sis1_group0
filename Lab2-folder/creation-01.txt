@@ -1,0 +1,32 @@
+# Write the code here
+
+!git clone https://github.com/pzinemanas/sis1lab.git
+
+import numpy as np
+from IPython.display import Audio
+from sis1lab.util import load_audio, save_audio, plot_signals, plot_complex
+
+from random import randint
+
+init_time = 0
+number_of_periods = 10000
+f0 = 220
+T0 = 1/f0
+
+t = np.arange(0,30, 1/fs)
+A = 2
+K = 30
+y = 0
+for k in range(1,K+1):
+  y += A * np.cos((2*np.pi)*(k)*f0*t + k*phi-(k-1)*np.pi/2)
+  A = np.exp(-k)
+y = y * np.sin((t**(4*np.exp(-t/100)))*2*f0/300)
+
+plot_signals(y, fs, t_start = init_time, t_end = (init_time + T0*number_of_periods))
+
+Audio(y, rate=fs, )
+
+from google.colab import drive
+drive.mount('/content/drive')
+
+save_audio('sis1_group0/Lab2-folder/artificial.wav', y, fs)
